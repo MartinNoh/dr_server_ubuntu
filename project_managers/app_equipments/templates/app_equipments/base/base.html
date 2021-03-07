@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>(주)광주인공지능센터 자산관리</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href='{% static "app_equipments/assets/img/favicon.ico" %}' rel="icon">
+  <link href='{% static "app_equipments/assets/img/apple-touch-icon.png" %}' rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href='{% static "app_equipments/assets/vendor/bootstrap/css/bootstrap.min.css" %}' rel="stylesheet">
+  <link href='{% static "app_equipments/assets/vendor/icofont/icofont.min.css" %}' rel="stylesheet">
+  <link href='{% static "app_equipments/assets/vendor/boxicons/css/boxicons.min.css" %}' rel="stylesheet">
+  <link href='{% static "app_equipments/assets/vendor/venobox/venobox.css" %}' rel="stylesheet">
+  <link href='{% static "app_equipments/assets/vendor/owl.carousel/assets/owl.carousel.min.css" %}' rel="stylesheet">
+  <link href='{% static "app_equipments/assets/vendor/aos/aos.css" %}' rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href='{% static "app_equipments/assets/css/style.css" %}' rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iPortfolio - v1.5.1
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+
+  <!-- selectPicker 오류 해결을 위한 bootstrap cdn 적용과 아래 script -->
+  <!-- https://stackoverflow.com/questions/15726411/how-to-use-bootstrap-select -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+        
+
+      <div class="profile">
+
+        <!--프로필 사진-->
+        <a href="{% url 'home' %}"><img src='{% static "app_equipments/assets/img/profile-img.jpg" %}' alt="" class="img-fluid rounded-circle"></a>
+
+        <!--SNS 아이콘
+        <div class="social-links mt-3 text-center">
+          <a href='{% static "app_equipments/#" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href='{% static "app_equipments/#" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href='{% static "app_equipments/#" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href='{% static "app_equipments/#" class="google-plus"><i class="bx bxl-skype"></i></a>
+          <a href='{% static "app_equipments/#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+        -->
+          
+      </div>
+
+
+      <!--네비게이션 메뉴-->
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#portfolio"><i class="bx bx-book-content"></i>배치 현황</a></li>
+          <li><a href="{% url 'check_list' %}"><i class="bx bx-file-blank"></i> <span>목록 확인</span></a></li>
+          <li><a href="{% url 'add_device' %}"><i class="bx bx-user"></i> <span>목록 변경</span></a></li>
+          <li><a href="#testimonials"><i class="bx bx-server"></i>공지사항</a></li>
+          <li><a href="#contact"><i class="bx bx-envelope"></i>관리자 문의</a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+
+
+      <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+    </div>
+  </header><!-- End Header -->
+
+
+
+
+  {% block content %}
+  {% endblock %}
+
+
+
+
+  <!--페이지 하단-->
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="d-flex flex-column">
+      <div class="container">
+        <div class="copyright">
+          &copy;
+          <strong><span> (주)광주인공지능센터</span></strong>
+        </div>
+        <div></div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/ -->
+          Designed by <a href="#contact">ehdrud1129@saltlux.com</a>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src='{% static "app_equipments/assets/vendor/jquery/jquery.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/bootstrap/js/bootstrap.bundle.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/jquery.easing/jquery.easing.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/php-email-form/validate.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/waypoints/jquery.waypoints.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/counterup/counterup.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/isotope-layout/isotope.pkgd.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/venobox/venobox.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/owl.carousel/owl.carousel.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/typed.js/typed.min.js" %}'></script>
+  <script src='{% static "app_equipments/assets/vendor/aos/aos.js" %}'></script>
+
+  <!-- Template Main JS File -->
+  <script src='{% static "app_equipments/assets/js/main.js" %}'></script>
+
+</body>
+
+</html>
