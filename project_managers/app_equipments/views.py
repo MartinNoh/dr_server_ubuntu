@@ -1,22 +1,32 @@
-from django.shortcuts import render, redirect
-from .forms import EquipmentForm
-from .models import Equipment
+from django.shortcuts import render
+from .models import Usage
 
 
 # home.html 페이지를 부르는 index 함수
 def home(request):
     return render(request, 'app_equipments/base/home.html')
 
-def check_list(request):
-    device_list = Equipment.objects.all()
-    return render(request, 'app_equipments/menu/check_list.html', {'device_list':device_list})
 
-def add_device(request):
-    if request.method == "POST":
-        form = EquipmentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('get_list')
-    else:
-        form = EquipmentForm()
-    return render(request, 'app_equipments/menu/add_device.html', {'form':form})
+def check_spec(request):
+    device_list = Usage.objects.all()
+    return render(request, 'app_equipments/menu/check_spec.html', {'device_list':device_list})
+
+
+def check_total(request):
+    return render(request, 'app_equipments/menu/check_total.html')
+
+
+def check_seat(request):
+    return render(request, 'app_equipments/menu/check_seat.html')
+
+
+def notification(request):
+    return render(request, 'app_equipments/menu/notification.html')
+
+
+def mailing(request):
+    return render(request, 'app_equipments/menu/mailing.html')
+
+
+def submenu(request):
+    return render(request, 'app_equipments/menu/submenu/portfolio-details.html')

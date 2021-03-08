@@ -1,8 +1,12 @@
 from django.urls import path
-from .views import home, add_device, check_list
+from .views import home, check_spec, check_total, check_seat, notification, mailing, submenu
 
 urlpatterns = [
     path('', home, name='home'),
-    path('check_list/', check_list, name='check_list'),
-    path('add_device/', add_device, name='add_device'),
+    path('check_spec/', check_spec, name='check_spec'),
+    path('check_total/', check_total, name='check_total'),
+    path('check_seat/', check_seat, name='check_seat'),
+    path('notification/', notification, name='notification'),
+    path('mailing/', mailing, name='mailing'),
+    path('submenu/', submenu, name='submenu'),
 ]
