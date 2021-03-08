@@ -17,169 +17,94 @@ RANK_CHOICES = (
     ('intern', 'intern'),
     ('contract', 'contract'),
 )
+
+
 class User(models.Model):
+    user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, default='')  # CharField should be indicated with max_length
     rank = models.CharField(max_length=20, default='', choices=RANK_CHOICES)
     seat = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.name
+        return str(self.name) + " | " + str(self.seat)
 
 
-NOTEBOOK_BRAND_CHOICES = (
+TYPE_CHOICES = (
+    ('', '장비타입 선택'),
+    ('notebook', 'notebook'),
+    ('desktop', 'desktop'),
+    ('monitor', 'monitor'),
+    ('keyboard', 'keyboard'),
+    ('mouse', 'mouse'),
+    ('ex_storage', 'ex_storage'),
+    ('network_eq', 'network_eq'),
+    ('sound_eq', 'sound_eq'),
+    ('accessory', 'accessory'),
+    ('etc', 'etc'),
+)
+
+BRAND_CHOICES = (
     ('', '브랜드 선택'),
-    ('gram', 'gram'),
-    ('ultra', 'ultra'),
-    ('samsung_itech', 'samsung_itech'),
-    ('asus', 'asus'),
-    ('hansung', 'hansung'),
+    ('notebook', (
+        ('samsung_itech', 'samsung_itech'),
+        ('gram512', 'gram512'),
+        ('gram256', 'gram256'),
+        ('ultra', 'ultra'),
+        ('asus', 'asus'),
+        ('hansung', 'hansung'),
+    )),
+    ('desktop', (
+        ('deep_learning', 'deep_learning'),
+        ('offer_interface', 'offer_interface'),
+        ('run_client_app', 'run_client_app'),
+    )),
+    ('monitor', (
+        ('samsung_itech', 'samsung_itech'),
+        ('samsung', 'samsung'),
+        ('lg', 'lg'),
+        ('viewsync', 'viewsync'),
+    )),
+    ('keyboard/mouse', (
+        ('samsung_itech', 'samsung_itech'),
+        ('gram', 'gram'),
+        ('ultra', 'ultra'),
+        ('logitech', 'logitech'),
+        ('micronics', 'micronics'),
+    )),
+    ('etc', 'etc'),
 )
-class Notebook(models.Model):
-    brand = models.CharField(max_length=20, default='', choices=NOTEBOOK_BRAND_CHOICES)
-    cpu = models.CharField(max_length=50, blank=True)
-    ram = models.CharField(max_length=50, blank=True)
-    drive = models.CharField(max_length=50, blank=True)
-    gpu = models.CharField(max_length=50, blank=True)
+
+
+class Device(models.Model):
+    device_id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=20, default='', choices=TYPE_CHOICES)
+    brand = models.CharField(max_length=20, default='', choices=BRAND_CHOICES)
     purchase_date = DateField(blank=True, default=datetime.date.today)
+    spec = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return self.brand
+        return str(self.type) + " | " + str(self.brand)
 
 
-DESKTOP_PURPOSE_CHOICES = (
-    ('', '용도 선택'),
-    ('deep_learning', 'deep_learning'),
-    ('offer_interface', 'offer_interface'),
-    ('run_client_app', 'run_client_app'),
-)
-class Desktop(models.Model):
-    purpose = models.CharField(max_length=20, default='', choices=DESKTOP_PURPOSE_CHOICES)
-    cpu = models.CharField(max_length=50, blank=True)
-    ram = models.CharField(max_length=50, blank=True)
-    drive = models.CharField(max_length=50, blank=True)
-    gpu = models.CharField(max_length=50, blank=True)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
+class Amount(models.Model):
+    amount_id = models.AutoField(primary_key=True)
+    device_id = models.ForeignKey("Device", related_name="am_device", on_delete=models.CASCADE, db_column="device_id")
+    amount = models.IntegerField(default=1)
+    updated_at = models.DateTimeField(auto_now=True) # Update continuosly
 
     def __str__(self):
-        return self.purpose
+        return str(self.device_id) + " | " + str(self.amount)
 
 
-MONITOR_BRAND_CHOICES = (
-    ('', '브랜드 선택'),
-    ('viewsync', 'viewsync'),
-    ('lg', 'lg'),
-    ('samsung_itech', 'samsung_itech'),
-    ('samsung', 'samsung'),
-)
-class Monitor(models.Model):
-    brand = models.CharField(max_length=20, default='', choices=MONITOR_BRAND_CHOICES)
-    inch = models.IntegerField(blank=True, default=32)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
+class Usage(models.Model):
+    usage_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey("User", related_name="user", on_delete=models.CASCADE, db_column="user_id")
+    device_id = models.ForeignKey("Device", related_name="us_device", on_delete=models.CASCADE, db_column="device_id")
+    updated_at = models.DateTimeField(auto_now=True) # Update continuosly
 
     def __str__(self):
-        return self.brand
+        return str(self.user_id) + " | " + str(self.device_id)
 
-
-KEYBOARD_BRAND_CHOICES = (
-    ('', '브랜드 선택'),
-    ('logitech_old', 'logitech_old'),
-    ('logitech_new', 'logitech_new'),
-    ('mechanical', 'mechanical'),
-)
-class Keyboard(models.Model):
-    brand = models.CharField(max_length=20, default='', choices=KEYBOARD_BRAND_CHOICES)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.brand
-
-
-MOUSE_BRAND_CHOICES = (
-    ('', '브랜드 선택'),
-    ('logitech_old', 'logitech_old'),
-    ('logitech_new', 'logitech_new'),
-    ('gram', 'gram'),
-    ('ultra', 'ultra'),
-    ('samsung_itech', 'samsung_itech'),
-    ('micronics', 'micronics'),
-)
-class Mouse(models.Model):
-    brand = models.CharField(max_length=20, default='', choices=MOUSE_BRAND_CHOICES)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.brand
-
-
-EXTERNALSTORAGE_TYPE_CHOICES = (
-    ('', '종류 선택'),
-    ('nas', 'nas'),
-    ('docking_station', 'docking_station'),
-    ('external_hdd', 'external_hdd'),
-    ('external_ssd', 'external_ssd'),
-
-)
-class ExternalStroage(models.Model):
-    type = models.CharField(max_length=20, default='', choices=EXTERNALSTORAGE_TYPE_CHOICES)
-    brand = models.CharField(max_length=20, blank=True, default='')
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.type
-
-
-NETWORKEQUIPMENT_TYPE_CHOICES = (
-    ('', '종류 선택'),
-    ('vpn_router', 'vpn_router'),
-    ('hub', 'hub'),
-)
-class NetworkEquipment(models.Model):
-    type = models.CharField(max_length=20, default='', choices=NETWORKEQUIPMENT_TYPE_CHOICES)
-    brand = models.CharField(max_length=20, blank=True, default='')
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.type
-
-
-SOUNDEQUIPMENT_TYPE_CHOICES = (
-    ('', '종류 선택'),
-    ('microphone', 'microphone'),
-    ('speaker', 'speaker'),
-)
-class SoundEquipment(models.Model):
-    type = models.CharField(max_length=20, default='', choices=SOUNDEQUIPMENT_TYPE_CHOICES)
-    brand = models.CharField(max_length=20, blank=True, default='')
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.type
-
-ACCESSORY_TYPE_CHOICES = (
-    ('', '종류 선택'),
-    ('notebook_bag', 'notebook_bag'),
-    ('hdmi', 'hdmi'),
-)
-class Accessory(models.Model):
-    type = models.CharField(max_length=20, default='', choices=ACCESSORY_TYPE_CHOICES)
-    brand = models.CharField(max_length=20, blank=True, default='')
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.type
-
-
-ETC_TYPE_CHOICES = (
-    ('', '종류 선택'),
-    ('kiosk', 'kiosk'),
-)
-class Etc(models.Model):
-    type = models.CharField(max_length=20, default='', choices=ETC_TYPE_CHOICES)
-    brand = models.CharField(max_length=20, blank=True, default='')
-    purchase_date = DateField(blank=True, default=datetime.date.today)
-
-    def __str__(self):
-        return self.type
 
 
 class Equipment(models.Model):
@@ -244,7 +169,7 @@ class Equipment(models.Model):
         ('그램 노트북 가방', '그램 노트북 가방'),
         ('울트라 노트북 가방', '울트라 노트북 가방'),
     )
-
+    equipment_id = models.IntegerField(primary_key=True)
     seat = models.IntegerField(default=1)
     name = models.CharField(max_length=10, default='No Name') # CharField should be indicated with max_length
     rank = models.CharField(max_length=20, default='Not Ranked', choices=RANK_CHOICES)
@@ -255,8 +180,6 @@ class Equipment(models.Model):
     smalldevice = models.CharField(max_length=20, blank=True, choices=SMALLDEVICE_CHOICES)
     bigdevice = models.CharField(max_length=20, blank=True, choices=BIGDEVICE_CHOICES)
     accessory = models.CharField(max_length=20, blank=True, choices=ACCESSORY_CHOICES)
-    created_at = models.DateField(auto_now_add=True) # Cannot be editable
-    updated_at = models.DateTimeField(auto_now=True) # Update continuosly
 
     def __str__(self):
         return self.name
