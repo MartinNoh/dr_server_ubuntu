@@ -13,9 +13,11 @@ RANK_CHOICES = (
     ('s6', 's6'),
     ('s7', 's7'),
     ('s8', 's8'),
+    ('director', 'director'),
     ('freelancer', 'freelancer'),
     ('intern', 'intern'),
     ('contract', 'contract'),
+    ('etc', 'etc'),
 )
 
 
