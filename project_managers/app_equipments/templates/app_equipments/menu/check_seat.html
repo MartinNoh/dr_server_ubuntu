@@ -18,17 +18,41 @@
 
         <!--왼쪽 배치도-->
         <div class="col-lg-6" data-aos="fade-right">
-          <img src='{% static "app_equipments/assets/img/seats.JPG" %}' class="img-seats" alt="">
+          <div style="position: absolute; left: 120px; top: 200px;"><a href="1">1</a></div>
+          <div style="position: absolute; left: 120px; top: 200px;"><a href="2">1</a></div>
+          <img src='{% static "app_equipments/assets/img/seats.PNG" %}' class="img-seats" alt="">
         </div>
 
 
         <!--오른쪽 입력-->
         <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
           <div class="col-lg-12">
-device
+            <div>
+              <h3>{{user.seat}}번 : {{user.rank}} {{user.name}}</h3>
+            </div>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">종류</th>
+                  <th scope="col">브랜드</th>
+                  <th scope="col">스펙</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for list in user %}
+                <tr>
+                  <td>{{list.type}}</td>
+                  <td>{{list.brand}}</td>
+                  <td>{{list.spec}}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+
+
 
     </div>
   </section><!-- End About Section -->

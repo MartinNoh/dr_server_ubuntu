@@ -25,7 +25,7 @@ class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, default='')  # CharField should be indicated with max_length
     rank = models.CharField(max_length=20, default='', choices=RANK_CHOICES)
-    seat = models.IntegerField(default=1)
+    seat = models.IntegerField(default=1, unique=True)
 
     def __str__(self):
         return str(self.name) + " | " + str(self.seat)

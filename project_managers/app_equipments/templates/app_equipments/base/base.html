@@ -84,7 +84,7 @@
         <ul>
           <li><a href="{% url 'check_spec' %}"><i class="bx bx-file-blank"></i> <span>스펙 확인</span></a></li>
           <li><a href="{% url 'check_total' %}"><i class="bx bx-book-content"></i><span>총계 확인</span></a></li>
-          <li><a href="{% url 'check_seat' %}"><i class="bx bx-user"></i> <span>배치 확인</span></a></li>
+          <li><a href="{% url 'check_seat' seat=1 %}"><i class="bx bx-user"></i> <span>배치 확인</span></a></li>
           <li><a href="{% url 'notification' %}"><i class="bx bx-server"></i><span>공지 사항</span></a></li>
           <li><a href="{% url 'mailing' %}"><i class="bx bx-envelope"></i><span>관리자 문의</span></a></li>
         </ul>
