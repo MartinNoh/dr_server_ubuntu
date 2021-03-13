@@ -35,8 +35,8 @@
                       좌석을 선택해주세요.
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {% for n in seat_list %}
-                        <a class="dropdown-item" href="{{ n }}">{{ n }}</a>
+                        {% for i in seat_all %}
+                        <a class="dropdown-item" href="{{ i.seat }}">{{ i.seat }}번 좌석 : {{ i.name }}</a>
                         {% endfor %}
                       </div>
                     </div>

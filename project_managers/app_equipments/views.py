@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Usage, User, Device
-from .forms import UsageEditForm
+from .forms import UsageEditForm, DeviceNewForm
 
 
 # home.html 페이지를 부르는 index 함수
@@ -14,18 +14,72 @@ def check_spec(request):
 
 
 def check_total(request):
-    return render(request, 'app_equipments/menu/check_total.html')
+    info_list = []
+    device_list = Device.objects.all()
+    for i in device_list:
+        usage_amount = Usage.objects.filter(device_id=i.device_id)
+
+        info_dic = {
+         'device_id': i.device_id,
+         'type': i.type,
+         'brand': i.brand,
+         'spec': i.spec,
+         'remains': i.amount - len(usage_amount),
+         'amounts': len(usage_amount),
+         'total': i.amount,
+         'purchase_date': i.purchase_date,}
+        #print(info_dic)
+
+        info_list.append(info_dic)
+        #print(info_list)
+
+    return render(request, 'app_equipments/menu/check_total.html', {'info_list': info_list,})
+
+
+def check_total_new(request):
+
+    # new device
+    if request.method == "POST":
+        form = DeviceNewForm(request.POST)
+        if form.is_valid():
+            new_device = form.save()
+
+            return redirect('check_total')
+    else:
+        form = DeviceNewForm()
+
+    return render(request, 'app_equipments/menu/check_total_new.html', {'form': form, })
+
+
+def check_total_update(request, device_id):
+    device = Device.objects.get(device_id=device_id)
+    if request.method == "POST":
+        form = DeviceNewForm(request.POST)
+        if form.is_valid():
+            device.type = form.cleaned_data['type']
+            device.brand = form.cleaned_data['brand']
+            device.spec = form.cleaned_data['spec']
+            device.amount = form.cleaned_data['amount']
+            device.purchase_date = form.cleaned_data['purchase_date']
+            device.save()
+
+            return redirect('check_total')
+    else:
+        form = DeviceNewForm(instance=device)
+
+    return render(request, 'app_equipments/menu/check_total_update.html', {'form': form, 'device_id': device_id,})
+
+
+def check_total_delete(request, device_id):
+    device = Device.objects.filter(device_id=device_id)
+    device[0].delete()
+
+    return redirect('/check_total/')
 
 
 def check_seat(request, seat):
     # get seat list
     seat_all = User.objects.all()
-    #print('1 :', seat_all)
-    seat_list = []
-    for i in seat_all:
-        seat_list.append(i.seat)
-    seat_list.sort()
-    #print('2 :', seat_list)
 
     # get user info
     user = User.objects.get(seat=seat)
@@ -69,7 +123,7 @@ def check_seat(request, seat):
         else:
             form = UsageEditForm()
 
-    return render(request, 'app_equipments/menu/check_seat.html', {'seat_list': seat_list, 'user': user, 'device_usage_info': device_usage_info, 'form': form})
+    return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form})
 
 
 def check_seat_delete(request, user_id, device_id):

@@ -77,28 +77,15 @@ class Device(models.Model):
     device_id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=20, default='', choices=TYPE_CHOICES)
     brand = models.CharField(max_length=20, default='', choices=BRAND_CHOICES)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
     spec = models.TextField(blank=True, default='')
+    amount = models.IntegerField(default=1)
+    purchase_date = DateField(blank=True, default=datetime.date.today)
 
     def __str__(self):
         return str(self.type) + " | " + str(self.brand) + " | " + str(self.spec)
 
     class Meta:
         ordering = ('type', 'brand',)
-
-
-
-class Amount(models.Model):
-    amount_id = models.AutoField(primary_key=True)
-    device_id = models.ForeignKey("Device", related_name="am_device", on_delete=models.CASCADE, db_column="device_id")
-    amount = models.IntegerField(default=1)
-    updated_at = models.DateTimeField(auto_now=True) # Update continuosly
-
-    def __str__(self):
-        return str(self.device_id) + " | " + str(self.amount)
-
-    class Meta:
-        ordering = ('device_id', 'amount',)
 
 
 class Usage(models.Model):
