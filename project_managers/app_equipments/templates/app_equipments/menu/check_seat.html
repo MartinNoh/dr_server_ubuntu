@@ -9,9 +9,9 @@
     <div class="container about-area">
 
       <div class="section-title">
-        <h2>배치 확인</h2>
-        <p>왼쪽의 배치도를 보시고 자리번호와 성명, 직급,  추가하려는 장비 내용을 선택해주세요.</p>
-        <p>사용하시는 장비를 꼼꼼하게 기입해주세요. 자산 현황을 조사하는 것이 목적이므로 개인 장비는 기입하지 않습니다.</p>
+        <h2>좌석 확인</h2>
+        <p>좌석 번호를 테이블 위에서 골라주시면 해당 사용자의 장비를 확인합니다.</p>
+        <p>장비 삭제 또는 추가 작업이 가능합니다.</p>
       </div>
 
       <div class="row">
@@ -26,6 +26,7 @@
         <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
           <div class="col-lg-12">
             <div>
+
               <table>
                 <tr>
                   <td width="43%">
@@ -41,20 +42,21 @@
                     </div>
                   </td>
                   <td>
-                    {% for user_info in user %}
-                    <h3>{{user_info.seat}}번 좌석 : {{user_info.name}} {{user_info.rank}}</h3>
-                    {% endfor %}
+                    <h3>{{user.seat}}번 좌석 : {{user.name}} {{user.rank}}</h3>
                   </td>
-
                 </tr>
               </table>
+
             </div>
+
+
             <table class="table">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">종류</th>
                   <th scope="col">브랜드</th>
                   <th scope="col">스펙</th>
+                  <th scope="col">삭제</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,10 +65,20 @@
                   <td>{{device_info.type}}</td>
                   <td>{{device_info.brand}}</td>
                   <td>{{device_info.spec}}</td>
+                  <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id %}">삭제하기</a></td>
                 </tr>
               {% endfor %}
               </tbody>
             </table>
+
+
+
+                <form method="post">
+                  {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-lg">추가</button>
+                </form>
+
           </div>
         </div>
       </div>

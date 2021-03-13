@@ -21,7 +21,10 @@ class User(models.Model):
     seat = models.IntegerField(default=1, unique=True)
 
     def __str__(self):
-        return str(self.name) + " | " + str(self.seat)
+        return str(self.seat) + " | " + str(self.name)
+
+    class Meta:
+        ordering = ('seat', 'name',)
 
 
 TYPE_CHOICES = (
@@ -78,7 +81,11 @@ class Device(models.Model):
     spec = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return str(self.type) + " | " + str(self.brand)
+        return str(self.type) + " | " + str(self.brand) + " | " + str(self.spec)
+
+    class Meta:
+        ordering = ('type', 'brand',)
+
 
 
 class Amount(models.Model):
@@ -90,6 +97,9 @@ class Amount(models.Model):
     def __str__(self):
         return str(self.device_id) + " | " + str(self.amount)
 
+    class Meta:
+        ordering = ('device_id', 'amount',)
+
 
 class Usage(models.Model):
     usage_id = models.AutoField(primary_key=True)
@@ -99,3 +109,6 @@ class Usage(models.Model):
 
     def __str__(self):
         return str(self.user_id) + " | " + str(self.device_id)
+
+    class Meta:
+        ordering = ('user_id', 'device_id',)
