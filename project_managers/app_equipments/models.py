@@ -7,17 +7,10 @@ import datetime
 
 RANK_CHOICES = (
     ('', '직급 선택'),
-    ('s3', 's3'),
-    ('s4', 's4'),
-    ('s5', 's5'),
-    ('s6', 's6'),
-    ('s7', 's7'),
-    ('s8', 's8'),
-    ('director', 'director'),
-    ('freelancer', 'freelancer'),
-    ('intern', 'intern'),
-    ('contract', 'contract'),
-    ('etc', 'etc'),
+    ('주임', '주임'),
+    ('대리', '대리'),
+    ('책임', '책임'),
+    ('법인장님', '법인장님'),
 )
 
 

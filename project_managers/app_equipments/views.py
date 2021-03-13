@@ -17,10 +17,41 @@ def check_total(request):
 
 
 def check_seat(request, seat):
-    user = User.objects.get(seat=seat)
-    usages = Usage.objects.get(user_id=user.user_id)
-    device_info = Device.objects.get(device_id=usages.device_id)
-    return render(request, 'app_equipments/menu/check_seat.html', {'user': user})
+    # get seat list
+    seat_all = User.objects.all()
+    print('1 :', seat_all)
+    seat_list = []
+    for i in seat_all:
+        seat_list.append(i.seat)
+    seat_list.sort()
+    print('2 :', seat_list)
+
+    # get user info
+    user = User.objects.filter(seat=seat)
+    print('3 :', user)
+
+    # get usage info
+    usage = Usage.objects.filter(user_id=user[0].user_id).order_by('device_id')
+    print('4 :', usage)
+
+    # make usage list
+    device_usage_info = []
+    for i in usage:
+        device = str(i.device_id).split('|')
+        #print('5 :', device)
+        #print('6 :', device[0])
+        #print('7 :', device[1])
+        device_usage = Device.objects.filter(type=device[0].strip(), brand=device[1].strip())
+        #print('8 :', device_usage)
+        #print('9 :', device_usage[0].spec)
+        device_info = {
+            'type': device[0],
+            'brand': device[1],
+            'spec': device_usage[0].spec
+        }
+        device_usage_info.append(device_info)
+        #print('10 :', device_usage_info)
+    return render(request, 'app_equipments/menu/check_seat.html', {'seat_list':seat_list, 'user': user, 'device_usage_info': device_usage_info})
 
 
 def notification(request):
