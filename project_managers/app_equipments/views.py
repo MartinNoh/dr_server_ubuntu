@@ -44,7 +44,7 @@ def check_total_new(request):
         if form.is_valid():
             new_device = form.save()
 
-            return redirect('check_total')
+        return redirect('check_total')
     else:
         form = DeviceNewForm()
 
@@ -63,7 +63,7 @@ def check_total_update(request, device_id):
             device.purchase_date = form.cleaned_data['purchase_date']
             device.save()
 
-            return redirect('check_total')
+        return redirect('check_total')
     else:
         form = DeviceNewForm(instance=device)
 
@@ -108,20 +108,20 @@ def check_seat(request, seat):
         device_usage_info.append(device_info)
         #print('10 :', device_usage_info)
 
-        # new usage
-        if request.method == "POST":
-            form = UsageEditForm(request.POST)
-            if form.is_valid():
-                new_usage = form.save(commit=False)
-                new_usage.user_id = user
-                new_usage.save()
+    # new usage
+    if request.method == "POST":
+        form = UsageEditForm(request.POST)
+        if form.is_valid():
+            new_usage = form.save(commit=False)
+            new_usage.user_id = user
+            new_usage.save()
 
-                seat = user.seat
-                get_page = '/check_seat/' + str(seat)
+            seat = user.seat
+            get_page = '/check_seat/' + str(seat)
 
-                return redirect(get_page)
-        else:
-            form = UsageEditForm()
+        return redirect(get_page)
+    else:
+        form = UsageEditForm()
 
     return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form})
 
