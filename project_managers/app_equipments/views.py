@@ -8,11 +8,6 @@ def home(request):
     return render(request, 'app_equipments/base/home.html')
 
 
-def check_spec(request):
-    device_list = Usage.objects.all()
-    return render(request, 'app_equipments/menu/check_spec.html', {'device_list': device_list})
-
-
 def check_total(request):
     info_list = []
     device_list = Device.objects.all()
@@ -21,13 +16,14 @@ def check_total(request):
 
         info_dic = {
          'device_id': i.device_id,
-         'type': i.type,
+         'category': i.category,
          'brand': i.brand,
+         'purchase_date': i.purchase_date,
          'spec': i.spec,
-         'remains': i.amount - len(usage_amount),
-         'amounts': len(usage_amount),
          'total': i.amount,
-         'purchase_date': i.purchase_date,}
+         'amounts': len(usage_amount),
+         'remains': i.amount - len(usage_amount),
+        }
         #print(info_dic)
 
         info_list.append(info_dic)
@@ -56,7 +52,7 @@ def check_total_update(request, device_id):
     if request.method == "POST":
         form = DeviceNewForm(request.POST)
         if form.is_valid():
-            device.type = form.cleaned_data['type']
+            device.category = form.cleaned_data['category']
             device.brand = form.cleaned_data['brand']
             device.spec = form.cleaned_data['spec']
             device.amount = form.cleaned_data['amount']
@@ -73,6 +69,56 @@ def check_total_update(request, device_id):
 def check_total_delete(request, device_id):
     device = Device.objects.filter(device_id=device_id)
     device[0].delete()
+
+    return redirect('/check_total/')
+
+
+def download_csv(request):
+    # 장비 정보를 리스트 담기
+    device_id = []
+    category = []
+    brand = []
+    purchase_date = []
+    spec = []
+    is_assets = []
+    etc = []
+    total = []
+    amounts = []
+    remains = []
+    device_list = Device.objects.all()
+    for i in device_list:
+        device_id.append(i.device_id)
+        category.append(i.category)
+        brand.append(i.brand)
+        purchase_date.append(i.purchase_date)
+        spec.append(i.spec)
+        is_assets.append(i.is_assets)
+        etc.append(i.etc)
+        total.append(i.amount)
+
+        usage_amount = Usage.objects.filter(device_id=i.device_id)
+        amounts.append(len(usage_amount))
+        remains.append(i.amount - len(usage_amount))
+
+    # 직원 정보를 리스트 담기
+    user_list = User.objects.all()
+    for i in user_list:
+        usage_amount = Usage.objects.filter(user_id=i.user_id)
+    print(user)
+    print(user[25])
+    print(len(user))
+
+
+    f = open("C:/Users/ehdru/Downloads/csv/usage.csv", "w")
+
+    f.write('\n' + '장비 총계 및 사용현황' + '\n')
+    f.write('구분, 브랜드, 구매일자, 스펙, 자산여부, 기타,  전체량, 사용량, 잔여량' + '\n')
+    for i in range(len(device_id)):
+        f.write(str(category[i]) + ',' + str(brand[i]) + ',' + str(purchase_date[i]) + ',' +
+                str(spec[i]) + ',' + str(is_assets[i]) + ',' + str(etc[i]) + ',' +
+                str(total[i]) + ',' + str(amounts[i]) + ',' + str(remains[i]) + '\n')
+
+    f.close()
 
     return redirect('/check_total/')
 
@@ -96,12 +142,12 @@ def check_seat(request, seat):
         #print('5 :', device)
         #print('6 :', device[0])
         #print('7 :', device[1])
-        device_spec = Device.objects.filter(type=device[0].strip(), brand=device[1].strip())
+        device_spec = Device.objects.filter(category=device[0].strip(), brand=device[1].strip())
         #print('8 :', device_usage)
         #print('9 :', device_usage[0].spec)
         device_info = {
             'device_id': device_spec[0].device_id,
-            'type': device[0],
+            'category': device[0],
             'brand': device[1],
             'spec': device_spec[0].spec
         }
@@ -140,11 +186,3 @@ def check_seat_delete(request, user_id, device_id):
 
 def notification(request):
     return render(request, 'app_equipments/menu/notification.html')
-
-
-def mailing(request):
-    return render(request, 'app_equipments/menu/mailing.html')
-
-
-def submenu(request):
-    return render(request, 'app_equipments/menu/submenu/portfolio-details.html')

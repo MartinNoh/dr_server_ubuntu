@@ -10,7 +10,9 @@ RANK_CHOICES = (
     ('주임', '주임'),
     ('대리', '대리'),
     ('책임', '책임'),
+    ('수석', '수석'),
     ('법인장님', '법인장님'),
+    ('보관장소', '보관장소'),
 )
 
 
@@ -27,65 +29,112 @@ class User(models.Model):
         ordering = ('seat', 'name',)
 
 
-TYPE_CHOICES = (
+CATEGORY_CHOICES = (
     ('', '장비타입 선택'),
-    ('notebook', 'notebook'),
-    ('desktop', 'desktop'),
-    ('monitor', 'monitor'),
-    ('keyboard', 'keyboard'),
-    ('mouse', 'mouse'),
-    ('ex_storage', 'ex_storage'),
-    ('network_eq', 'network_eq'),
-    ('sound_eq', 'sound_eq'),
-    ('accessory', 'accessory'),
-    ('etc', 'etc'),
+    ('노트북', '노트북'),
+    ('데스크톱', '데스크톱'),
+    ('모니터', '모니터'),
+    ('키보드', '키보드'),
+    ('마우스', '마우스'),
+    ('외장저장장치', '외장저장장치'),
+    ('네트워크장비', '네트워크장비'),
+    ('음향장비', '음향장비'),
+    ('액세서리', '액세서리'),
+    ('기타', '기타'),
 )
 
 BRAND_CHOICES = (
     ('', '브랜드 선택'),
-    ('notebook', (
-        ('samsung_itech', 'samsung_itech'),
-        ('gram512', 'gram512'),
-        ('gram256', 'gram256'),
-        ('ultra', 'ultra'),
+    ('노트북', (
+        ('apple', 'apple'),
         ('asus', 'asus'),
+        ('corsair', 'corsair'),
+        ('dell', 'dell'),
+        ('gram', 'gram'),
         ('hansung', 'hansung'),
-    )),
-    ('desktop', (
-        ('deep_learning', 'deep_learning'),
-        ('offer_interface', 'offer_interface'),
-        ('run_client_app', 'run_client_app'),
-    )),
-    ('monitor', (
-        ('samsung_itech', 'samsung_itech'),
+        ('hp', 'hp'),
+        ('intel', 'intel'),
+        ('lenovo', 'lenovo'),
+        ('msi', 'msi'),
         ('samsung', 'samsung'),
+        ('ultra', 'ultra'),
+    )),
+    ('데스크톱', (
+        ('조립식', '조립식'),
+        ('apple', 'apple'),
+        ('asus', 'asus'),
+        ('corsair', 'corsair'),
+        ('dell', 'dell'),
+        ('hansung', 'hansung'),
+        ('hp', 'hp'),
+        ('intel', 'intel'),
+        ('lenovo', 'lenovo'),
         ('lg', 'lg'),
+        ('msi', 'msi'),
+        ('samsung', 'samsung'),
+    )),
+    ('모니터', (
+        ('lg', 'lg'),
+        ('samsung', 'samsung'),
+        ('viewsonic', 'viewsonic'),
         ('viewsync', 'viewsync'),
     )),
-    ('keyboard/mouse', (
-        ('samsung_itech', 'samsung_itech'),
-        ('gram', 'gram'),
-        ('ultra', 'ultra'),
+    ('키보드/마우스', (
+        ('abko', 'abko'),
+        ('gram노트북용', 'gram노트북용'),
         ('logitech', 'logitech'),
         ('micronics', 'micronics'),
+        ('samsung노트북용', 'samsung노트북용'),
+        ('ultra노트북용', 'ultra노트북용'),
     )),
-    ('etc', 'etc'),
+    ('외장저장장치', (
+        ('seagate', 'seagate'),
+        ('ultra_star', 'ultra_star'),
+        ('micron', 'micron'),
+    )),
+    ('액세서리', (
+        ('gram노트북가방', 'gram노트북가방'),
+        ('samsung노트북가방', 'samsung노트북가방'),
+    )),
+    ('기타', (
+        ('hdmi', 'hdmi'),
+        ('hdmi허브', 'hdmi허브'),
+        ('도킹스테이션', '도킹스테이션'),
+        ('키오스크', '키오스크'),
+        ('스피커', '스피커'),
+        ('지향성마이크', '지향성마이크'),
+    )),
+    ('사무실가전', (
+        ('복합기', '복합기'),
+        ('냉장고', '냉장고'),
+        ('공기청정기', '공기청정기'),
+        ('세절기', '세절기'),
+    )),
+)
+
+IS_ASSETS_CHOICES =(
+    ('', '자산구분 선택'),
+    ('자산', '자산'),
+    ('자산 외', '자산 외'),
+    ('렌탈', '렌탈'),
 )
 
 
 class Device(models.Model):
     device_id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=20, default='', choices=TYPE_CHOICES)
+    purchase_date = DateField(default=datetime.date.today)
+    category = models.CharField(max_length=20, default='', choices=CATEGORY_CHOICES)
     brand = models.CharField(max_length=20, default='', choices=BRAND_CHOICES)
-    spec = models.TextField(blank=True, default='')
     amount = models.IntegerField(default=1)
-    purchase_date = DateField(blank=True, default=datetime.date.today)
+    spec = models.TextField(blank=True, default='')
+    is_assets = models.CharField(blank=True, max_length=20, default='', choices=IS_ASSETS_CHOICES)
+    etc = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return str(self.type) + " | " + str(self.brand) + " | " + str(self.spec)
+        return str(self.category) + " | " + str(self.brand) + " | " + str(self.purchase_date) + " | " + str(self.spec)
 
     class Meta:
-        ordering = ('type', 'brand',)
+        ordering = ('category', 'brand', 'purchase_date')
 
 
 class Usage(models.Model):

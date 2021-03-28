@@ -73,8 +73,8 @@ table.writeInfo td{
   height:1rem !important;
 }
 
-/* 자산추가 배경 세로 늘여주기 */
-#about{
+/* 배경 세로 늘여주기 */
+.section-bg{
   height: 60rem;
 }
 /*--------------------------------------------------------------

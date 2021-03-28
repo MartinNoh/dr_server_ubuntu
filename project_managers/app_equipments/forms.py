@@ -16,10 +16,10 @@ class UsageEditForm(forms.ModelForm):
 class DeviceNewForm(forms.ModelForm):
     class Meta:
         model = Device
-        fields = ['type', 'brand', 'spec', 'amount', 'purchase_date',]
+        fields = ['category', 'brand', 'spec', 'amount', 'purchase_date',]
 
         labels = {
-            'type': '구분',
+            'category': '구분',
             'brand': '브랜드',
             'spec': '스펙',
             'amount': '총량',
@@ -28,3 +28,4 @@ class DeviceNewForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DeviceNewForm, self).__init__(*args, **kwargs)
+        self.fields['spec'].widget.attrs['placeholder'] = "PC 예시)  CPU : AMD Ryzen 7 4800H with Radeon Graphics 2.90GHz / RAM : 32GB / HDD : 1TB / GPU : GTX1660"
