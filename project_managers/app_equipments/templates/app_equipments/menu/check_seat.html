@@ -57,6 +57,7 @@
                   <th scope="col">구분</th>
                   <th scope="col">브랜드</th>
                   <th scope="col">스펙</th>
+                  <th scope="col">자산여부</th>
                   <th scope="col">삭제</th>
                 </tr>
               </thead>
@@ -66,6 +67,7 @@
                   <td>{{device_info.category}}</td>
                   <td>{{device_info.brand}}</td>
                   <td>{{device_info.spec}}</td>
+                  <td>{{device_info.is_assets}}</td>
                   <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id %}"><i class="bx bxs-trash"></i></a></td>
                 </tr>
               {% endfor %}

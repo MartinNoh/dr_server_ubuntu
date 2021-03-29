@@ -125,6 +125,9 @@ def download_csv(request):
             user_purchase_date.append(split_list[4].strip())
             user_device = Device.objects.filter(category=split_list[2].strip(), brand=split_list[3].strip(),
                                                 purchase_date=split_list[4].strip())
+            user_spec.append(user_device[0].spec)
+            user_is_assets.append(user_device[0].is_assets)
+            user_etc.append(user_device[0].etc)
 
     f = open("C:/Users/ehdru/Downloads/csv/usage.csv", "w")
 
@@ -173,7 +176,8 @@ def check_seat(request, seat):
             'device_id': device_spec[0].device_id,
             'category': device[0],
             'brand': device[1],
-            'spec': device_spec[0].spec
+            'spec': device_spec[0].spec,
+            'is_assets': device_spec[0].is_assets
         }
         device_usage_info.append(device_info)
         #print('10 :', device_usage_info)
