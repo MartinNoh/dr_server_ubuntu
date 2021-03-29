@@ -89,9 +89,10 @@
       <!--네비게이션 메뉴-->
       <nav class="nav-menu">
         <ul>
-          <li><a href="{% url 'check_total' %}"><i class="bx bx-file-blank"></i><span>총계 확인</span></a></li>
-          <li><a href="{% url 'check_seat' seat=1 %}"><i class="bx bx-user"></i> <span>좌석 확인</span></a></li>
-          <li><a href="{% url 'notification' %}"><i class="bx bx-server"></i><span>공지 사항</span></a></li>
+          <li><a href="{% url 'check_seat' seat=1 %}"><i class="bx bxs-user-detail"></i> <span>좌석 확인</span></a></li>
+          <li><a href="{% url 'check_total' %}"><i class="bx bxs-devices"></i><span>총계 확인</span></a></li>
+          <li><a href="{% url 'download_csv' %}"><i class="bx bxs-download"></i> <span>CSV 저장</span></a></li>
+          <li><a href="{% url 'notification' %}"><i class="bx bxs-megaphone"></i><span>공지 사항</span></a></li>
         </ul>
       </nav><!-- .nav-menu -->
 

@@ -17,19 +17,19 @@
       <div class="row">
 
         <!--왼쪽 배치도-->
-        <div class="col-lg-6" data-aos="fade-right">
+        <div class="col-lg-4" data-aos="fade-right">
           <img src='{% static "app_equipments/assets/img/seats.PNG" %}' class="img-seats" alt="">
         </div>
 
 
         <!--오른쪽 입력-->
-        <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
+        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
           <div class="col-lg-12">
             <div>
 
               <table>
                 <tr>
-                  <td width="43%">
+                  <td>
                     <div class="dropdown">
                       <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       좌석을 선택해주세요.
@@ -41,6 +41,7 @@
                       </div>
                     </div>
                   </td>
+                  <td width="20px"></td>
                   <td>
                     <h3>{{user.seat}}번 좌석 : {{user.name}} {{user.rank}}</h3>
                   </td>
@@ -53,7 +54,7 @@
             <table class="table">
               <thead class="thead-dark">
                 <tr>
-                  <th scope="col">종류</th>
+                  <th scope="col">구분</th>
                   <th scope="col">브랜드</th>
                   <th scope="col">스펙</th>
                   <th scope="col">삭제</th>
@@ -65,7 +66,7 @@
                   <td>{{device_info.category}}</td>
                   <td>{{device_info.brand}}</td>
                   <td>{{device_info.spec}}</td>
-                  <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id %}">삭제하기</a></td>
+                  <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id %}"><i class="bx bxs-trash"></i></a></td>
                 </tr>
               {% endfor %}
               </tbody>

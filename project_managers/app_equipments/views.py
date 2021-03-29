@@ -100,27 +100,51 @@ def download_csv(request):
         amounts.append(len(usage_amount))
         remains.append(i.amount - len(usage_amount))
 
+    user_seat = []
+    user_name = []
+    user_category = []
+    user_brand = []
+    user_purchase_date = []
+    user_spec = []
+    user_is_assets = []
+    user_etc = []
     # 직원 정보를 리스트 담기
     user_list = User.objects.all()
+    print(user_list)
     for i in user_list:
-        usage_amount = Usage.objects.filter(user_id=i.user_id)
-    print(user)
-    print(user[25])
-    print(len(user))
+        usage_list = Usage.objects.filter(user_id=i.user_id)
+        print(usage_list)
+        for j in usage_list:
+            split_list = str(j).split('|')
+            print(split_list)
+            user_seat.append(split_list[0].strip())
+            user_name.append(split_list[1].strip())
 
+            user_category.append(split_list[2].strip())
+            user_brand.append(split_list[3].strip())
+            user_purchase_date.append(split_list[4].strip())
+            user_device = Device.objects.filter(category=split_list[2].strip(), brand=split_list[3].strip(),
+                                                purchase_date=split_list[4].strip())
 
     f = open("C:/Users/ehdru/Downloads/csv/usage.csv", "w")
 
-    f.write('\n' + '장비 총계 및 사용현황' + '\n')
+    f.write('\n' + '장비 총계 및 사용량' + '\n')
     f.write('구분, 브랜드, 구매일자, 스펙, 자산여부, 기타,  전체량, 사용량, 잔여량' + '\n')
     for i in range(len(device_id)):
         f.write(str(category[i]) + ',' + str(brand[i]) + ',' + str(purchase_date[i]) + ',' +
                 str(spec[i]) + ',' + str(is_assets[i]) + ',' + str(etc[i]) + ',' +
                 str(total[i]) + ',' + str(amounts[i]) + ',' + str(remains[i]) + '\n')
 
+    f.write('\n' + '직원 장비목록' + '\n')
+    f.write('자리, 성함, 구분, 브랜드, 구매일자, 스펙, 자산여부, 기타' + '\n')
+    for i in range(len(user_seat)):
+        f.write(str(user_seat[i]) + ',' + str(user_name[i]) + ',' + str(user_category[i]) + ',' +
+                str(user_brand[i]) + ',' + str(user_purchase_date[i]) + ',' + str(user_spec[i]) + ',' +
+                str(user_is_assets[i]) + ',' + str(user_etc[i]) + '\n')
+
     f.close()
 
-    return redirect('/check_total/')
+    return redirect('/')
 
 
 def check_seat(request, seat):
