@@ -20,6 +20,8 @@ def check_total(request):
          'brand': i.brand,
          'purchase_date': i.purchase_date,
          'spec': i.spec,
+         'is_assets': i.is_assets,
+         'etc': i.etc,
          'total': i.amount,
          'amounts': len(usage_amount),
          'remains': i.amount - len(usage_amount),
@@ -147,7 +149,7 @@ def download_csv(request):
 
     f.close()
 
-    return redirect('/')
+    return render(request, 'app_equipments/menu/download_csv.html', {})
 
 
 def check_seat(request, seat):

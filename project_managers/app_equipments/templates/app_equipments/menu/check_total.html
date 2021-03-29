@@ -15,7 +15,7 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-12" data-aos="fade-up">
+        <div class="col-lg-16" data-aos="fade-up">
 
           <table class="table">
             <thead class="thead-dark">
@@ -24,6 +24,7 @@
                 <th scope="col">브랜드</th>
                 <th scope="col">구매일자</th>
                 <th scope="col">스펙</th>
+                <th scope="col">자산여부</th>
                 <th scope="col">총량</th>
                 <th scope="col">사용량</th>
                 <th scope="col">잔량</th>
@@ -37,6 +38,7 @@
                 <td><a href="{% url 'check_total_update' list.device_id%}">{{list.brand}}</a></td>
                 <td>{{list.purchase_date}}</td>
                 <td>{{list.spec}}</td>
+                <td>{{list.is_assets}}</td>
                 <td>{{list.total}}</td>
                 <td>{{list.amounts}}</td>
                 <td>{{list.remains}}</td>
