@@ -1,4 +1,5 @@
 import os, datetime
+from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Usage, User, Device
 from .forms import UsageEditForm, DeviceNewForm
@@ -10,8 +11,15 @@ def home(request):
 
 
 def check_total(request):
+
     info_list = []
     device_list = Device.objects.all()
+
+    search_key = request.GET.get('search_key')  # 검색어 가져오기
+    #print(search_key)
+    if search_key:  # 만약 검색어가 존재하면
+        device_list = device_list.filter(Q(category__icontains=search_key) | Q(brand__icontains=search_key) | Q(spec__icontains=search_key) | Q(is_assets__icontains=search_key)).distinct()  # 해당 검색어를 포함한 queryset 가져오기
+
     for i in device_list:
         usage_amount = Usage.objects.filter(device_id=i.device_id)
 

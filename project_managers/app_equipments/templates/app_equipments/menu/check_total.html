@@ -11,12 +11,23 @@
 
       <div class="section-title">
         <h2>총계 확인</h2>
-        <p>기준을 선택해주시면 자산 목록을 확인하겠습니다. 추후 사용자, 장비, 카테고리 기준으로 select 옵션을 줄 것이고, 전체 개수에 비례한 사용하는 장비 수를 막대그래프로 표시합니다.</p>
+        <p>1. 장비 스펙, 구입일자, 자산여부 총계, 잔여 수를 확인합니다.</p>
+        <p>2. 상단 검색 기능으로 구분, 브랜드, 스펙, 자산여부를 검색하여 목록을 가져옵니다.</p>
+        <p>3. 하단 목록 추가 버튼을 통해 새로운 장비를 목록으로 추가합니다.</p>
       </div>
 
       <div class="row">
-        <div class="col-lg-16" data-aos="fade-up" style="width:100%;">
+        <form class="form-inline my-2 my-lg-0" action="" method="GET">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_key" value="{{search_key}}">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
 
+      <div>
+        <p> </p>
+      </div>
+      <div class="row">
+        <div class="col-lg-16" data-aos="fade-up" style="width:100%;">
           <table class="table">
             <thead class="thead-dark">
               <tr>
