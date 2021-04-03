@@ -1,3 +1,4 @@
+import os, datetime
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Usage, User, Device
 from .forms import UsageEditForm, DeviceNewForm
@@ -112,13 +113,13 @@ def download_csv(request):
     user_etc = []
     # 직원 정보를 리스트 담기
     user_list = User.objects.all()
-    print(user_list)
+    #print(user_list)
     for i in user_list:
         usage_list = Usage.objects.filter(user_id=i.user_id)
-        print(usage_list)
+        #print(usage_list)
         for j in usage_list:
             split_list = str(j).split('|')
-            print(split_list)
+            #print(split_list)
             user_seat.append(split_list[0].strip())
             user_name.append(split_list[1].strip())
 
@@ -131,7 +132,17 @@ def download_csv(request):
             user_is_assets.append(user_device[0].is_assets)
             user_etc.append(user_device[0].etc)
 
-    f = open("C:/Users/ehdru/Downloads/csv/usage.csv", "w")
+    users_folder_path = os.path.expanduser('~')
+    downloads_path = os.path.join(users_folder_path, 'Downloads', 'GJAC_Equipments')
+    file_name = 'GJAC_Equipments_' + datetime.datetime.now().strftime('%Y%m%d') + '.csv'
+    output_path = os.path.join(downloads_path, file_name)
+    try:
+        if not os.path.exists(downloads_path):
+            os.makedirs(downloads_path)
+    except OSError:
+        print('Error: Creating directory. ' + downloads_path)
+
+    f = open(output_path, 'w')
 
     f.write('\n' + '장비 총계 및 사용량' + '\n')
     f.write('구분, 브랜드, 구매일자, 스펙, 자산여부, 기타,  전체량, 사용량, 잔여량' + '\n')

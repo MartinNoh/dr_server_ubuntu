@@ -83,18 +83,20 @@ WSGI_APPLICATION = 'project_managers.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# home : localhost  root / shehdrud12
+# server : 172.17.0.1 root / saltlux#20, donggyeong / shehdrud12
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'equipments',
-        #'USER': 'root',
+        'USER': 'root',
         #'PASSWORD': 'saltlux#20',
-        'USER': 'donggyeong',
+        #'USER': 'donggyeong',
         'PASSWORD': 'shehdrud12',
-        #'HOST': 'localhost', # default: localhost
-        'HOST': '172.17.0.1', # mysql_service container
+        'HOST': 'localhost', # default: localhost
+        #'HOST': '172.17.0.1', # mysql_service container
         'PORT': '3306', # default: 3306
     }
 }
