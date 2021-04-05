@@ -84,7 +84,7 @@ def check_total_delete(request, device_id):
     return redirect('/check_total/')
 
 
-def download_csv(request):
+def download_tsv(request):
     # 장비 정보를 리스트 담기
     device_id = []
     category = []
@@ -142,7 +142,7 @@ def download_csv(request):
 
     users_folder_path = os.path.expanduser('~')
     downloads_path = os.path.join(users_folder_path, 'Downloads', 'GJAC_Equipments')
-    file_name = 'GJAC_Equipments_' + datetime.datetime.now().strftime('%Y%m%d') + '.csv'
+    file_name = 'GJAC_Equipments_' + datetime.datetime.now().strftime('%Y%m%d') + '.tsv'
     output_path = os.path.join(downloads_path, file_name)
     try:
         if not os.path.exists(downloads_path):
@@ -153,22 +153,22 @@ def download_csv(request):
     f = open(output_path, 'w')
 
     f.write('\n' + '장비 총계 및 사용량' + '\n')
-    f.write('구분, 브랜드, 구매일자, 스펙, 자산여부, 기타,  전체량, 사용량, 잔여량' + '\n')
+    f.write('구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\t' + '전체량' + '\t' + '사용량' + '\t' + '잔여량' + '\n')
     for i in range(len(device_id)):
-        f.write(str(category[i]) + ',' + str(brand[i]) + ',' + str(purchase_date[i]) + ',' +
-                str(spec[i]) + ',' + str(is_assets[i]) + ',' + str(etc[i]) + ',' +
-                str(total[i]) + ',' + str(amounts[i]) + ',' + str(remains[i]) + '\n')
+        f.write(str(category[i]) + '\t' + str(brand[i]) + '\t' + str(purchase_date[i]) + '\t' +
+                str(spec[i]) + '\t' + str(is_assets[i]) + '\t' + str(etc[i]) + '\t' +
+                str(total[i]) + '\t' + str(amounts[i]) + '\t' + str(remains[i]) + '\n')
 
     f.write('\n' + '직원 장비목록' + '\n')
-    f.write('자리, 성함, 구분, 브랜드, 구매일자, 스펙, 자산여부, 기타' + '\n')
+    f.write('자리' + '\t' + '성함' + '\t' + '구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\n')
     for i in range(len(user_seat)):
-        f.write(str(user_seat[i]) + ',' + str(user_name[i]) + ',' + str(user_category[i]) + ',' +
-                str(user_brand[i]) + ',' + str(user_purchase_date[i]) + ',' + str(user_spec[i]) + ',' +
-                str(user_is_assets[i]) + ',' + str(user_etc[i]) + '\n')
+        f.write(str(user_seat[i]) + '\t' + str(user_name[i]) + '\t' + str(user_category[i]) + '\t' +
+                str(user_brand[i]) + '\t' + str(user_purchase_date[i]) + '\t' + str(user_spec[i]) + '\t' +
+                str(user_is_assets[i]) + '\t' + str(user_etc[i]) + '\n')
 
     f.close()
 
-    return render(request, 'app_equipments/menu/download_csv.html', {})
+    return render(request, 'app_equipments/menu/download_tsv.html', {})
 
 
 def check_seat(request, seat):
