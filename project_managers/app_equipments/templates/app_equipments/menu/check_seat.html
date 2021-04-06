@@ -17,9 +17,33 @@
       <div class="row">
 
         <!--왼쪽 배치도-->
-        <div class="col-lg-4" data-aos="fade-right">
-          <img src='{% static "app_equipments/assets/img/seats.PNG" %}' class="img-seats" alt="">
-        </div>
+        <table  class="col-lg-4" data-aos="fade-right">
+          <tr>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                사무실을 선택해주세요.
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{% url 'check_seat' office='510' seat=1 %}">동명동 I-PLEX 510호</a>
+                  <a class="dropdown-item" href="{% url 'check_seat' office='508' seat=1 %}">동명동 I-PLEX 508호</a>
+                  <a class="dropdown-item" href="{% url 'check_seat' office='naju' seat=1 %}">나주 사무소(한전 파견)</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              {% if office == '508' %}
+                <img src='{% static "app_equipments/assets/img/seats_508.PNG" %}' class="img-seats" alt="">
+              {% elif office == 'naju' %}
+                <img src='{% static "app_equipments/assets/img/seats_naju.PNG" %}' class="img-seats" alt="">
+              {% else %}
+                <img src='{% static "app_equipments/assets/img/seats_510.PNG" %}' class="img-seats" alt="">
+              {% endif %}
+            </td>
+          </tr>
+        </table>
 
 
         <!--오른쪽 입력-->

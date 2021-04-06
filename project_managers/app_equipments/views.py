@@ -171,7 +171,8 @@ def download_tsv(request):
     return render(request, 'app_equipments/menu/download_tsv.html', {})
 
 
-def check_seat(request, seat):
+def check_seat(request, office, seat):
+
     # get seat list
     seat_all = User.objects.all()
 
@@ -218,7 +219,7 @@ def check_seat(request, seat):
     else:
         form = UsageEditForm()
 
-    return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form})
+    return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form, 'office':office})
 
 
 def check_seat_delete(request, user_id, device_id):
