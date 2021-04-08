@@ -213,23 +213,23 @@ def check_seat(request, office, seat):
             new_usage.save()
 
             seat = user.seat
-            get_page = '/check_seat/' + str(seat)
+            get_page = '/check_seat/' + str(office) + '/' + str(seat)
 
         return redirect(get_page)
     else:
         form = UsageEditForm()
 
-    return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form, 'office':office})
+    return render(request, 'app_equipments/menu/check_seat.html', {'seat_all': seat_all, 'user': user, 'device_usage_info': device_usage_info, 'form': form, 'office': office})
 
 
-def check_seat_delete(request, user_id, device_id):
+def check_seat_delete(request, user_id, device_id, office):
     usage = Usage.objects.filter(user_id=user_id, device_id=device_id)
     #print(usage)
     usage[0].delete()
 
     user = User.objects.get(user_id=user_id)
     seat = user.seat
-    get_page = '/check_seat/' + str(seat)
+    get_page = '/check_seat/' + str(office) + '/' + str(seat)
 
     return redirect(get_page)
 

@@ -9,6 +9,6 @@ urlpatterns = [
     path('check_total_delete/<int:device_id>', check_total_delete, name='check_total_delete'),
     path('download_tsv/', download_tsv, name='download_tsv'),
     path('check_seat/<str:office>/<int:seat>', check_seat, name='check_seat'),
-    path('check_seat_delete/<int:user_id>/<int:device_id>', check_seat_delete, name='check_seat_delete'),
+    path('check_seat_delete/<int:user_id>/<int:device_id>/<str:office>', check_seat_delete, name='check_seat_delete'),
     path('notification/', notification, name='notification'),
 ]

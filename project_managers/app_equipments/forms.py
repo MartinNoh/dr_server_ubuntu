@@ -13,6 +13,17 @@ class UsageEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UsageEditForm, self).__init__(*args, **kwargs)
 
+        get_device_list = []
+        device_list = Device.objects.all()
+        for i in device_list:
+            usage_amount = Usage.objects.filter(device_id=i.device_id)
+            if (i.amount - len(usage_amount)) > 0:
+                get_device_list.append(i.device_id)
+        #print("number", get_device_list)
+
+        self.fields['device_id'].queryset = Device.objects.filter(device_id__in=get_device_list)
+
+
 class DeviceNewForm(forms.ModelForm):
     class Meta:
         model = Device
