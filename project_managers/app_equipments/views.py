@@ -68,6 +68,8 @@ def check_total_update(request, device_id):
             device.spec = form.cleaned_data['spec']
             device.amount = form.cleaned_data['amount']
             device.purchase_date = form.cleaned_data['purchase_date']
+            device.is_assets = form.cleaned_data['is_assets']
+            device.etc = form.cleaned_data['etc']
             device.save()
 
         return redirect('check_total')

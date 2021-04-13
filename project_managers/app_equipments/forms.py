@@ -27,7 +27,7 @@ class UsageEditForm(forms.ModelForm):
 class DeviceNewForm(forms.ModelForm):
     class Meta:
         model = Device
-        fields = ['category', 'brand', 'spec', 'amount', 'purchase_date',]
+        fields = ['category', 'brand', 'spec', 'amount', 'purchase_date', 'is_assets', 'etc']
 
         labels = {
             'category': '구분',
@@ -35,6 +35,8 @@ class DeviceNewForm(forms.ModelForm):
             'spec': '스펙',
             'amount': '총량',
             'purchase_date': '구매일자',
+            'is_assets': '자산여부',
+            'etc': '기타',
         }
 
     def __init__(self, *args, **kwargs):
