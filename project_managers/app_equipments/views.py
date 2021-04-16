@@ -18,7 +18,7 @@ def check_total(request):
     search_key = request.GET.get('search_key')  # 검색어 가져오기
     #print(search_key)
     if search_key:  # 만약 검색어가 존재하면
-        device_list = device_list.filter(Q(category__icontains=search_key) | Q(brand__icontains=search_key) | Q(spec__icontains=search_key) | Q(is_assets__icontains=search_key)).distinct()  # 해당 검색어를 포함한 queryset 가져오기
+        device_list = device_list.filter(Q(category__icontains=search_key) | Q(sort__icontains=search_key) | Q(spec__icontains=search_key) | Q(is_assets__icontains=search_key)).distinct()  # 해당 검색어를 포함한 queryset 가져오기
 
     for i in device_list:
         usage_amount = Usage.objects.filter(device_id=i.device_id)
@@ -26,7 +26,7 @@ def check_total(request):
         info_dic = {
          'device_id': i.device_id,
          'category': i.category,
-         'brand': i.brand,
+         'sort': i.sort,
          'purchase_date': i.purchase_date,
          'spec': i.spec,
          'is_assets': i.is_assets,
@@ -64,7 +64,7 @@ def check_total_update(request, device_id):
         form = DeviceNewForm(request.POST)
         if form.is_valid():
             device.category = form.cleaned_data['category']
-            device.brand = form.cleaned_data['brand']
+            device.sort = form.cleaned_data['sort']
             device.spec = form.cleaned_data['spec']
             device.amount = form.cleaned_data['amount']
             device.purchase_date = form.cleaned_data['purchase_date']
@@ -90,7 +90,7 @@ def download_tsv(request):
     # 장비 정보를 리스트 담기
     device_id = []
     category = []
-    brand = []
+    sort = []
     purchase_date = []
     spec = []
     is_assets = []
@@ -102,7 +102,7 @@ def download_tsv(request):
     for i in device_list:
         device_id.append(i.device_id)
         category.append(i.category)
-        brand.append(i.brand)
+        sort.append(i.sort)
         purchase_date.append(i.purchase_date)
         spec.append(i.spec)
         is_assets.append(i.is_assets)
@@ -116,7 +116,7 @@ def download_tsv(request):
     user_seat = []
     user_name = []
     user_category = []
-    user_brand = []
+    user_sort = []
     user_purchase_date = []
     user_spec = []
     user_is_assets = []
@@ -134,9 +134,9 @@ def download_tsv(request):
             user_name.append(split_list[1].strip())
 
             user_category.append(split_list[2].strip())
-            user_brand.append(split_list[3].strip())
+            user_sort.append(split_list[3].strip())
             user_purchase_date.append(split_list[4].strip())
-            user_device = Device.objects.filter(category=split_list[2].strip(), brand=split_list[3].strip(),
+            user_device = Device.objects.filter(category=split_list[2].strip(), sort=split_list[3].strip(),
                                                 purchase_date=split_list[4].strip())
             user_spec.append(user_device[0].spec)
             user_is_assets.append(user_device[0].is_assets)
@@ -157,7 +157,7 @@ def download_tsv(request):
     f.write('\n' + '장비 총계 및 사용량' + '\n')
     f.write('구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\t' + '전체량' + '\t' + '사용량' + '\t' + '잔여량' + '\n')
     for i in range(len(device_id)):
-        f.write(str(category[i]) + '\t' + str(brand[i]) + '\t' + str(purchase_date[i]) + '\t' +
+        f.write(str(category[i]) + '\t' + str(sort[i]) + '\t' + str(purchase_date[i]) + '\t' +
                 str(spec[i]) + '\t' + str(is_assets[i]) + '\t' + str(etc[i]) + '\t' +
                 str(total[i]) + '\t' + str(amounts[i]) + '\t' + str(remains[i]) + '\n')
 
@@ -165,7 +165,7 @@ def download_tsv(request):
     f.write('자리' + '\t' + '성함' + '\t' + '구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\n')
     for i in range(len(user_seat)):
         f.write(str(user_seat[i]) + '\t' + str(user_name[i]) + '\t' + str(user_category[i]) + '\t' +
-                str(user_brand[i]) + '\t' + str(user_purchase_date[i]) + '\t' + str(user_spec[i]) + '\t' +
+                str(user_sort[i]) + '\t' + str(user_purchase_date[i]) + '\t' + str(user_spec[i]) + '\t' +
                 str(user_is_assets[i]) + '\t' + str(user_etc[i]) + '\n')
 
     f.close()
@@ -193,13 +193,13 @@ def check_seat(request, office, seat):
         #print('5 :', device)
         #print('6 :', device[0])
         #print('7 :', device[1])
-        device_spec = Device.objects.filter(category=device[0].strip(), brand=device[1].strip())
+        device_spec = Device.objects.filter(category=device[0].strip(), sort=device[1].strip())
         #print('8 :', device_usage)
         #print('9 :', device_usage[0].spec)
         device_info = {
             'device_id': device_spec[0].device_id,
             'category': device[0],
-            'brand': device[1],
+            'sort': device[1],
             'spec': device_spec[0].spec,
             'is_assets': device_spec[0].is_assets
         }

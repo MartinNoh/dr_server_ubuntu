@@ -30,7 +30,7 @@ class User(models.Model):
 
 
 CATEGORY_CHOICES = (
-    ('', '장비타입 선택'),
+    ('', '범주 선택'),
     ('노트북', '노트북'),
     ('데스크톱', '데스크톱'),
     ('모니터', '모니터'),
@@ -41,10 +41,11 @@ CATEGORY_CHOICES = (
     ('음향장비', '음향장비'),
     ('액세서리', '액세서리'),
     ('기타', '기타'),
+    ('사무실가전', '사무실가전'),
 )
 
-BRAND_CHOICES = (
-    ('', '브랜드 선택'),
+SORT_CHOICES = (
+    ('', '종류 선택'),
     ('노트북', (
         ('apple', 'apple'),
         ('asus', 'asus'),
@@ -88,9 +89,16 @@ BRAND_CHOICES = (
         ('ultra노트북용', 'ultra노트북용'),
     )),
     ('외장저장장치', (
-        ('seagate', 'seagate'),
-        ('ultra_star', 'ultra_star'),
-        ('micron', 'micron'),
+        ('hdd', 'hdd'),
+        ('ssd', 'ssd'),
+    )),
+    ('네트워크장비', (
+        ('공유기', '공유기'),
+        ('스위치허브', '스위치허브'),
+    )),
+    ('음향장비', (
+        ('스피커', '스피커'),
+        ('지향성마이크', '지향성마이크'),
     )),
     ('액세서리', (
         ('gram노트북가방', 'gram노트북가방'),
@@ -101,8 +109,7 @@ BRAND_CHOICES = (
         ('hdmi허브', 'hdmi허브'),
         ('도킹스테이션', '도킹스테이션'),
         ('키오스크', '키오스크'),
-        ('스피커', '스피커'),
-        ('지향성마이크', '지향성마이크'),
+
     )),
     ('사무실가전', (
         ('복합기', '복합기'),
@@ -124,17 +131,17 @@ class Device(models.Model):
     device_id = models.AutoField(primary_key=True)
     purchase_date = DateField(default=datetime.date.today)
     category = models.CharField(max_length=20, default='', choices=CATEGORY_CHOICES)
-    brand = models.CharField(max_length=20, default='', choices=BRAND_CHOICES)
+    sort = models.CharField(max_length=20, default='', choices=SORT_CHOICES)
     amount = models.IntegerField(default=1)
     spec = models.TextField(blank=True, default='')
     is_assets = models.CharField(blank=True, max_length=20, default='', choices=IS_ASSETS_CHOICES)
     etc = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return str(self.category) + " | " + str(self.brand) + " | " + str(self.purchase_date) + " | " + str(self.spec)
+        return str(self.category) + " | " + str(self.sort) + " | " + str(self.purchase_date) + " | " + str(self.spec)
 
     class Meta:
-        ordering = ('category', 'brand', 'purchase_date')
+        ordering = ('category', 'sort', 'purchase_date')
 
 
 class Usage(models.Model):

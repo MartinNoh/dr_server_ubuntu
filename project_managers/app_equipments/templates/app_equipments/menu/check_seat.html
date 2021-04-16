@@ -89,7 +89,7 @@
               {% for device_info in device_usage_info %}
                 <tr>
                   <td>{{device_info.category}}</td>
-                  <td>{{device_info.brand}}</td>
+                  <td>{{device_info.sort}}</td>
                   <td>{{device_info.spec}}</td>
                   <td>{{device_info.is_assets}}</td>
                   <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id office%}"><i class="bx bxs-trash"></i></a></td>
