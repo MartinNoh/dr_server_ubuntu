@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Usage, User, Device
 from .forms import UsageEditForm, DeviceNewForm
+import openpyxl
+from django.http import HttpResponse, Http404
 
 
 # home.html 페이지를 부르는 index 함수
@@ -144,7 +146,7 @@ def download_tsv(request):
 
     users_folder_path = os.path.expanduser('~')
     downloads_path = os.path.join(users_folder_path, 'Downloads', 'GJAC_Equipments')
-    file_name = 'GJAC_Equipments_' + datetime.datetime.now().strftime('%Y%m%d') + '.tsv'
+    file_name = 'GJAC_Equipments_' + datetime.datetime.now().strftime('%Y%m%d') + '.xlsx'
     output_path = os.path.join(downloads_path, file_name)
     try:
         if not os.path.exists(downloads_path):
@@ -152,25 +154,33 @@ def download_tsv(request):
     except OSError:
         print('Error: Creating directory. ' + downloads_path)
 
-    f = open(output_path, 'w')
 
-    f.write('\n' + '장비 총계 및 사용량' + '\n')
-    f.write('구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\t' + '전체량' + '\t' + '사용량' + '\t' + '잔여량' + '\n')
+    # 서버 다운로드 파일 백업
+    wb = openpyxl.Workbook()
+
+    sheet1 = wb.active
+    sheet1.title = "Total"
+    sheet2 = wb.create_sheet("Usage")
+
+    subject = ["총량", "사용량", "잔여량", "범주", "종류", "스펙", "구매일자", "자산여부", "기타"]
+    sheet1.append(subject)
     for i in range(len(device_id)):
-        f.write(str(category[i]) + '\t' + str(sort[i]) + '\t' + str(purchase_date[i]) + '\t' +
-                str(spec[i]) + '\t' + str(is_assets[i]) + '\t' + str(etc[i]) + '\t' +
-                str(total[i]) + '\t' + str(amounts[i]) + '\t' + str(remains[i]) + '\n')
+        total_value = [
+            int(total[i]), int(amounts[i]), int(remains[i]),
+            str(category[i]), str(sort[i]), str(spec[i]),
+            str(purchase_date[i]), str(is_assets[i]),  str(etc[i])
+        ]
+        sheet1.append(total_value)
 
-    f.write('\n' + '직원 장비목록' + '\n')
-    f.write('자리' + '\t' + '성함' + '\t' + '구분' + '\t' + '브랜드' + '\t' + '구매일자' + '\t' + '스펙' + '\t' + '자산여부' + '\t' + '기타' + '\n')
-    for i in range(len(user_seat)):
-        f.write(str(user_seat[i]) + '\t' + str(user_name[i]) + '\t' + str(user_category[i]) + '\t' +
-                str(user_sort[i]) + '\t' + str(user_purchase_date[i]) + '\t' + str(user_spec[i]) + '\t' +
-                str(user_is_assets[i]) + '\t' + str(user_etc[i]) + '\n')
+    wb.save(output_path)
 
-    f.close()
 
-    return render(request, 'app_equipments/menu/download_tsv.html', {})
+    # 클라이언트 다운로드 rb 파일모드
+    with open(output_path, 'rb') as fh:
+        response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+        response['Content-Disposition'] = 'attachment; filename=' + file_name
+
+        return response
 
 
 def check_seat(request, office, seat):
