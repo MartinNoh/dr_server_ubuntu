@@ -161,9 +161,12 @@ def download_tsv(request):
     sheet1 = wb.active
     sheet1.title = "Total"
     sheet2 = wb.create_sheet("Usage")
+    #sheet3 = wb.create_sheet("DB_User")
+    #sheet4 = wb.create_sheet("DB_Device")
+    #sheet5 = wb.create_sheet("DB_Usage")
 
-    subject = ["총량", "사용량", "잔여량", "범주", "종류", "스펙", "구매일자", "자산여부", "기타"]
-    sheet1.append(subject)
+    subject1 = ["총량", "사용량", "잔여량", "범주", "종류", "스펙", "구매일자", "자산여부", "기타"]
+    sheet1.append(subject1)
     for i in range(len(device_id)):
         total_value = [
             int(total[i]), int(amounts[i]), int(remains[i]),
@@ -171,6 +174,24 @@ def download_tsv(request):
             str(purchase_date[i]), str(is_assets[i]),  str(etc[i])
         ]
         sheet1.append(total_value)
+
+    subject2 = ["위치번호", "이름", "범주", "종류", "스펙", "구매일자", "자산여부", "기타"]
+    sheet2.append(subject2)
+    for i in range(len(user_seat)):
+        usage_value = [
+            str(user_seat[i]), str(user_name[i]), str(user_category[i]), str(user_sort[i]),
+            str(user_spec[i]), str(user_purchase_date[i]), str(user_is_assets[i]), str(user_etc[i])
+        ]
+
+    #subject3 = ["user_id", "name", "rank", "seat"]
+    #sheet3.append(subject3)
+
+    #subject4 = ["device_id", "purchase_date", "category", "sort", "amount", "spec", "is_assets", "etc"]
+    #sheet4.append(subject4)
+
+    #subject5 = ["usage_id", "user_id", "device_id", "updated_at"]
+    #sheet5.append(subject5)
+
 
     wb.save(output_path)
 
