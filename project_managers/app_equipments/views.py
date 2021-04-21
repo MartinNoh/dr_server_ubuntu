@@ -182,6 +182,7 @@ def download_excel(request):
             str(user_seat[i]), str(user_name[i]), str(user_category[i]), str(user_sort[i]),
             str(user_spec[i]), str(user_purchase_date[i]), str(user_is_assets[i]), str(user_etc[i])
         ]
+        sheet2.append(usage_value)
 
     #subject3 = ["user_id", "name", "rank", "seat"]
     #sheet3.append(subject3)
