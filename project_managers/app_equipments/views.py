@@ -88,7 +88,7 @@ def check_total_delete(request, device_id):
     return redirect('/check_total/')
 
 
-def download_tsv(request):
+def download_excel(request):
     # 장비 정보를 리스트 담기
     device_id = []
     category = []
@@ -195,13 +195,15 @@ def download_tsv(request):
 
     wb.save(output_path)
 
+    try:
+        # 클라이언트 다운로드 rb 파일모드
+        with open(output_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'attachment; filename=' + file_name
 
-    # 클라이언트 다운로드 rb 파일모드
-    with open(output_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-        response['Content-Disposition'] = 'attachment; filename=' + file_name
-
-        return response
+            return response
+    except:
+        return render(request, 'app_equipments/menu/download_excel.html', {})
 
 
 def check_seat(request, office, seat):
