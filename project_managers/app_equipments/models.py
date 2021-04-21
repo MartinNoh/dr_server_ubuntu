@@ -138,7 +138,7 @@ class Device(models.Model):
     etc = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return str(self.category) + " | " + str(self.sort) + " | " + str(self.purchase_date) + " | " + str(self.spec)
+        return str(self.category) + " | " + str(self.sort) + " | " + str(self.etc) + " | " + str(self.spec) + " | " + str(self.purchase_date)
 
     class Meta:
         ordering = ('category', 'sort', 'purchase_date')

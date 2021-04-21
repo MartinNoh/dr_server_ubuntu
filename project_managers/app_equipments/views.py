@@ -139,7 +139,7 @@ def download_excel(request):
             user_sort.append(split_list[3].strip())
             user_purchase_date.append(split_list[4].strip())
             user_device = Device.objects.filter(category=split_list[2].strip(), sort=split_list[3].strip(),
-                                                purchase_date=split_list[4].strip())
+                                                purchase_date=split_list[6].strip())
             user_spec.append(user_device[0].spec)
             user_is_assets.append(user_device[0].is_assets)
             user_etc.append(user_device[0].etc)
@@ -259,8 +259,11 @@ def check_seat(request, office, seat):
 
 
 def check_seat_delete(request, user_id, device_id, office):
+    print(user_id)
+    print(device_id)
+    print(office)
     usage = Usage.objects.filter(user_id=user_id, device_id=device_id)
-    #print(usage)
+    print(usage)
     if len(usage) > 0:
         usage[0].delete()
 
