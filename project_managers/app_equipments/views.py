@@ -261,7 +261,8 @@ def check_seat(request, office, seat):
 def check_seat_delete(request, user_id, device_id, office):
     usage = Usage.objects.filter(user_id=user_id, device_id=device_id)
     #print(usage)
-    usage[0].delete()
+    if len(usage) > 0:
+        usage[0].delete()
 
     user = User.objects.get(user_id=user_id)
     seat = user.seat

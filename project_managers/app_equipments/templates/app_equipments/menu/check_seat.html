@@ -28,9 +28,9 @@
                 사무실을 선택해주세요.
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="{% url 'check_seat' office='510' seat=1 %}">동명동 I-PLEX 510호</a>
-                  <a class="dropdown-item" href="{% url 'check_seat' office='508' seat=1 %}">동명동 I-PLEX 508호</a>
-                  <a class="dropdown-item" href="{% url 'check_seat' office='naju' seat=1 %}">나주 사무소(한전 파견)</a>
+                  <a class="dropdown-item" href="{% url 'check_seat' office='510' seat=100 %}">동명동 I-PLEX 510호</a>
+                  <a class="dropdown-item" href="{% url 'check_seat' office='508' seat=206 %}">동명동 I-PLEX 508호</a>
+                  <a class="dropdown-item" href="{% url 'check_seat' office='naju' seat=300 %}">나주 사무소(한전 파견)</a>
                 </div>
               </div>
             </td>
@@ -63,7 +63,14 @@
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for i in seat_all %}
-                        <a class="dropdown-item" href="{{ i.seat }}">{{ i.seat }}번 좌석 : {{ i.name }}</a>
+                          {% if office == 'naju' and i.seat > 299 %}
+                            <a class="dropdown-item" href="{{ i.seat }}">{{ i.seat }}번 좌석 : {{ i.name }}</a>
+                          {% elif office == '508' and i.seat > 199 and i.seat < 300 %}
+                            <a class="dropdown-item" href="{{ i.seat }}">{{ i.seat }}번 좌석 : {{ i.name }}</a>
+                          {% elif office == '510' and i.seat > 99 and i.seat < 200 %}
+                            <a class="dropdown-item" href="{{ i.seat }}">{{ i.seat }}번 좌석 : {{ i.name }}</a>
+                          {% else %}
+                          {% endif %}
                         {% endfor %}
                       </div>
                     </div>
