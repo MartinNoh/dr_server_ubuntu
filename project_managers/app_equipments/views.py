@@ -161,9 +161,9 @@ def download_excel(request):
     sheet1 = wb.active
     sheet1.title = "Total"
     sheet2 = wb.create_sheet("Usage")
-    #sheet3 = wb.create_sheet("DB_User")
-    #sheet4 = wb.create_sheet("DB_Device")
-    #sheet5 = wb.create_sheet("DB_Usage")
+    sheet3 = wb.create_sheet("DB_User")
+    sheet4 = wb.create_sheet("DB_Device")
+    sheet5 = wb.create_sheet("DB_Usage")
 
     subject1 = ["총량", "사용량", "잔여량", "범주", "종류", "스펙", "구매일자", "자산여부", "기타"]
     sheet1.append(subject1)
@@ -184,14 +184,31 @@ def download_excel(request):
         ]
         sheet2.append(usage_value)
 
-    #subject3 = ["user_id", "name", "rank", "seat"]
-    #sheet3.append(subject3)
+    subject3 = ["user_id", "name", "rank", "seat"]
+    sheet3.append(subject3)
+    for i in user_list:
+        db_user_value = [
+            str(i.user_id), str(i.name), str(i.rank), str(i.seat)
+        ]
+        sheet3.append(db_user_value)
 
-    #subject4 = ["device_id", "purchase_date", "category", "sort", "amount", "spec", "is_assets", "etc"]
-    #sheet4.append(subject4)
 
-    #subject5 = ["usage_id", "user_id", "device_id", "updated_at"]
-    #sheet5.append(subject5)
+    subject4 = ["device_id", "purchase_date", "category", "sort", "amount", "spec", "is_assets", "etc"]
+    sheet4.append(subject4)
+    for i in device_list:
+        db_device_value = [
+            str(i.device_id), str(i.purchase_date), str(i.category), str(i.sort), str(i.amount), str(i.spec), str(i.is_assets), str(i.etc)
+        ]
+        sheet4.append(db_device_value)
+
+    subject5 = ["usage_id", "user_id", "device_id", "updated_at"]
+    sheet5.append(subject5)
+    usage_list = Usage.objects.all()
+    for i in usage_list:
+        db_usage_value = [
+            str(i.usage_id), str(i.user_id), str(i.device_id), str(i.updated_at)
+        ]
+        sheet5.append(db_usage_value)
 
 
     wb.save(output_path)
