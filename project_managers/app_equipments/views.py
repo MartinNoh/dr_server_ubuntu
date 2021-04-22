@@ -227,7 +227,9 @@ def check_seat(request, office, seat):
         #print('5 :', device)
         #print('6 :', device[0])
         #print('7 :', device[1])
-        device_spec = Device.objects.filter(category=device[0].strip(), sort=device[1].strip())
+
+
+        device_spec = Device.objects.filter(category=device[0].strip(), sort=device[1].strip(), etc=device[2].strip(), spec=device[3].strip(), purchase_date=device[4].strip())
         #print('8 :', device_usage)
         #print('9 :', device_usage[0].spec)
         device_info = {

@@ -102,8 +102,8 @@
                   <td>{{device_info.sort}}</td>
                   <td>{{device_info.spec}}</td>
                   <td>{{device_info.is_assets}}</td>
-                  <td>{{user.user_id}}</td>
-                  <td>{{device_info.device_id}}</td>
+                  <!--<td>{{user.user_id}}</td>
+                  <td>{{device_info.device_id}}</td>-->
                   <td><a href="{% url 'check_seat_delete' user.user_id device_info.device_id office%}"><i class="bx bxs-trash"></i></a></td>
                 </tr>
               {% endfor %}
