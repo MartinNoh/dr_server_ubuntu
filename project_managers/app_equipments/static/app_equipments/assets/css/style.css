@@ -77,6 +77,18 @@ table.writeInfo td{
 .section-bg{
   height: 100rem;
 }
+
+/* pagination 중앙정렬 */
+.pagination{
+  display: block;
+  text-align: center;
+}
+
+.pagination > li  > a{
+  float: none;
+  margin-left: -5px;
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/

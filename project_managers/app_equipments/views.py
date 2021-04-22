@@ -5,6 +5,7 @@ from .models import Usage, User, Device
 from .forms import UsageEditForm, DeviceNewForm
 import openpyxl
 from django.http import HttpResponse, Http404
+from django.core.paginator import Paginator
 
 
 # home.html 페이지를 부르는 index 함수
@@ -42,7 +43,17 @@ def check_total(request):
         info_list.append(info_dic)
         #print(info_list)
 
-    return render(request, 'app_equipments/menu/check_total.html', {'info_list': info_list,})
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(info_list, 10)
+    try:
+        return_list = paginator.page(page)
+    except PageNotAnInteger:
+        return_list = paginator.page(1)
+    except EmptyPage:
+        return_list = paginator.page(paginator.num_pages)
+
+    return render(request, 'app_equipments/menu/check_total.html', {'return_list': return_list,})
 
 
 def check_total_new(request):
