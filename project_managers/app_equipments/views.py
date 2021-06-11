@@ -8,7 +8,7 @@ from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator
 
 
-# home.html 페이지를 부르는 index 함수
+# home.html ?�이지�?부르는 index ?�수
 def home(request):
     return render(request, 'app_equipments/base/home.html')
 
@@ -18,13 +18,22 @@ def check_total(request):
     info_list = []
     device_list = Device.objects.all()
 
-    search_key = request.GET.get('search_key')  # 검색어 가져오기
+    search_key = request.GET.get('search_key')  # 검?�어 가?�오�?
     #print(search_key)
-    if search_key:  # 만약 검색어가 존재하면
-        device_list = device_list.filter(Q(category__icontains=search_key) | Q(sort__icontains=search_key) | Q(spec__icontains=search_key) | Q(is_assets__icontains=search_key)).distinct()  # 해당 검색어를 포함한 queryset 가져오기
+    if search_key:  # 만약 검?�어가 존재?�면
+        device_list = device_list.filter(Q(category__icontains=search_key) | Q(sort__icontains=search_key) | Q(spec__icontains=search_key) | Q(is_assets__icontains=search_key)).distinct()  # ?�당 검?�어�??�함??queryset 가?�오�?
 
     for i in device_list:
         usage_amount = Usage.objects.filter(device_id=i.device_id)
+
+        device_storage = []
+        for j in usage_amount:
+            if '공석' in str(j.user_id).split("|")[1].strip():
+                device_storage.append(j)
+            elif '창고' in str(j.user_id).split("|")[1].strip():
+                device_storage.append(j)
+            elif '서랍' in str(j.user_id).split("|")[1].strip():
+                device_storage.append(j)
 
         info_dic = {
          'device_id': i.device_id,
@@ -35,8 +44,8 @@ def check_total(request):
          'is_assets': i.is_assets,
          'etc': i.etc,
          'total': i.amount,
-         'amounts': len(usage_amount),
-         'remains': i.amount - len(usage_amount),
+         'amounts': len(usage_amount) - len(device_storage),
+         'remains': i.amount - len(usage_amount) + len(device_storage),
         }
         #print(info_dic)
 
@@ -100,7 +109,7 @@ def check_total_delete(request, device_id):
 
 
 def download_excel(request):
-    # 장비 정보를 리스트 담기
+    # ?�비 ?�보�?리스???�기
     device_id = []
     category = []
     sort = []
@@ -134,7 +143,7 @@ def download_excel(request):
     user_spec = []
     user_is_assets = []
     user_etc = []
-    # 직원 정보를 리스트 담기
+    # 직원 ?�보�?리스???�기
     user_list = User.objects.all()
     #print(user_list)
     for i in user_list:
@@ -166,7 +175,7 @@ def download_excel(request):
         print('Error: Creating directory. ' + downloads_path)
 
 
-    # 서버 다운로드 파일 백업
+    # ?�버 ?�운로드 ?�일 백업
     wb = openpyxl.Workbook()
 
     sheet1 = wb.active
@@ -225,7 +234,7 @@ def download_excel(request):
     wb.save(output_path)
 
     try:
-        # 클라이언트 다운로드 rb 파일모드
+        # ?�라?�언???�운로드 rb ?�일모드
         with open(output_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'attachment; filename=' + file_name

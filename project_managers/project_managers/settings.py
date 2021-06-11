@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
 
     # for runserver
     '211.223.65.189',
+    '192.168.0.201',
     'localhost',
     '127.0.0.1',
     '0.0.0.0',
@@ -91,13 +92,13 @@ DATABASES = {
         #'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'equipments',
-        'USER': 'root',
-        'PASSWORD': 'saltlux#20',
-        #'USER': 'donggyeong',
-        #'PASSWORD': 'shehdrud12',
-        'HOST': 'localhost', # default: localhost
-        #'HOST': '172.17.0.1', # mysql_service container
-        'PORT': '3306', # default: 3306
+        #'USER': 'root',
+        #'PASSWORD': 'saltlux#20',
+        'USER': 'donggyeong',
+        'PASSWORD': 'shehdrud12',
+        #'HOST': 'localhost', # default: localhost
+        'HOST': '172.17.0.1', # mysql_service container
+        'PORT': '13306', # default: 3306
     }
 }
 
